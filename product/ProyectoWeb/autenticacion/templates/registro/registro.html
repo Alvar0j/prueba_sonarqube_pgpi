@@ -1,0 +1,88 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="register-container">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <h2 class="register-title">Regístrate</h2>
+        
+        <!-- Mostrar errores generales del formulario -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger text-left">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <!-- Campo para Nombre de Usuario -->
+        <div class="form-group">
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Nombre de usuario" value="{{ form.username.value|default_if_none:'' }}" required>
+            <i class="icon fa fa-user"></i>
+            <small>Requerido. Máximo 150 caracteres. Solo letras, dígitos y @/./+/-/_</small>
+            {% if form.username.errors %}
+            <div class="text-danger">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Campo para Email -->
+        <div class="form-group">
+            <input type="email" name="email" id="id_email" class="form-control" placeholder="Correo electrónico" value="{{ form.email.value|default_if_none:'' }}" required>
+            <i class="icon fa fa-envelope"></i>
+            {% if form.email.errors %}
+            <div class="text-danger">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Campo para Contraseña -->
+        <div class="form-group">
+            <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Contraseña" required>
+            <i class="icon fa fa-lock"></i>
+            <ul class="password-requirements">
+                <li>La contraseña no debe parecerse a su información personal.</li>
+                <li>Debe contener al menos 8 caracteres.</li>
+                <li>No debe ser una contraseña comúnmente utilizada.</li>
+                <li>No puede ser completamente numérica.</li>
+            </ul>
+            {% if form.password1.errors %}
+            <div class="text-danger">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Campo para Confirmar Contraseña -->
+        <div class="form-group">
+            <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Confirmar contraseña" required>
+            <i class="icon fa fa-lock"></i>
+            <small>Por favor, ingrese la misma contraseña que antes.</small>
+            {% if form.password2.errors %}
+            <div class="text-danger">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Selección de Rol -->
+        <div class="form-group text-left">
+            <label>¿Qué te gustaría ser?</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="propietario" value="Propietario" required>
+                <label class="form-check-label" for="propietario">Propietario</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="cliente" value="Cliente" required>
+                <label class="form-check-label" for="cliente">Cliente</label>
+            </div>
+            {% if form.role.errors %}
+            <div class="text-danger">{{ form.role.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Botón de Registro -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-register" >Regístrate</button>
+        </div>
+
+        <!-- Enlace para iniciar sesión si ya tiene una cuenta -->
+        <div class="text-center">
+            <span>¿Ya tienes una cuenta? <a href="{% url 'iniciar_sesion' %}" class="signup-link">Iniciar sesión</a></span>
+        </div>
+    </form>
+</div>
+{% endblock %}
